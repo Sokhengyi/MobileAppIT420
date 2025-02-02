@@ -1,3 +1,2 @@
 # MobileAppIT420
-testing
 
