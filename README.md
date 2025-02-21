@@ -1,2 +1,0 @@
-# MobileAppIT420
-test
