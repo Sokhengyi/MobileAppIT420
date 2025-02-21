@@ -128,17 +128,16 @@ fun ProfileScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(bgColor) // Apply dark mode background
+                .background(bgColor)
                 .padding(paddingValues)
         ) {
-            // Header Section
             Spacer(modifier = Modifier.height(20.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         brush = Brush.horizontalGradient(
-                            colors = listOf(Color(0xFFE91E63), Color(0xFFFF5500))
+                            colors = listOf(Color(0xFFE91E63), Color(0xFFE91E63))
                         ))
                             .padding(20.dp)
                      ){
@@ -148,7 +147,7 @@ fun ProfileScreen(navController: NavController) {
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Image(
-                                painter = painterResource(id = R.drawable.pandalogo), // Replace `logo` with your image name
+                                painter = painterResource(id = R.drawable.khengorder), // Replace `logo` with your image name
                                 contentDescription = "Logo",
                                 modifier = Modifier
                                     .size(80.dp)
@@ -157,13 +156,13 @@ fun ProfileScreen(navController: NavController) {
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = "Yi Sokheng",
+                                text = "Chean Sokchem",
                                 color = Color.White,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "@yisokheng",
+                                text = "@cheansokchem",
                                 color = Color.White,
                                 fontSize = 14.sp
                             )
@@ -175,10 +174,10 @@ fun ProfileScreen(navController: NavController) {
                                     .padding(15.dp),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                StatItem(count = "2", label = currentTranslation["Posts"]!!, textColor = textColor)
-                                StatItem(count = "6", label = currentTranslation["Orders"]!!, textColor = textColor)
-                                StatItem(count = "5", label = currentTranslation["WishList"]!!, textColor = textColor)
-                                StatItem(count = "248", label = currentTranslation["Likes"]!!, textColor = textColor)
+                                StatItem(count = "25", label = currentTranslation["Posts"]!!, textColor = textColor)
+                                StatItem(count = "50", label = currentTranslation["Orders"]!!, textColor = textColor)
+                                StatItem(count = "15", label = currentTranslation["WishList"]!!, textColor = textColor)
+                                StatItem(count = "1.2k", label = currentTranslation["Likes"]!!, textColor = textColor)
                             }
                         }
                     }
@@ -187,10 +186,22 @@ fun ProfileScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(20.dp))
                         MenuSection(
                         items = listOf(
-                            MenuItem(icon = "👤", label = currentTranslation["AccountInfo"]!!, color = Color(0xFFFF8000)),
-                            MenuItem(icon = "🛒", label = currentTranslation["MyOrder"]!!, color = Color(0xFF28A745)),
-                            MenuItem(icon = "💳", label = currentTranslation["PaymentMethod"]!!, color = Color(0xFFFFC107)),
-                            MenuItem(icon = "📍", label = currentTranslation["DeliveryAddress"]!!, color = Color(0xFF6F42C1))
+                            MenuItem(icon = "\uD83D\uDC64", label = currentTranslation["AccountInfo"]!!, color = Color(
+                                0xFFE91E63
+                            )
+                            ),
+                            MenuItem(icon = "\uD83D\uDECD", label = currentTranslation["MyOrder"]!!, color = Color(
+                                0xFFC06886
+                            )
+                            ),
+                            MenuItem(icon = "\uD83D\uDCB3", label = currentTranslation["PaymentMethod"]!!, color = Color(
+                                0xFFC5AE66
+                            )
+                            ),
+                            MenuItem(icon = "\uD83D\uDCCD", label = currentTranslation["DeliveryAddress"]!!, color = Color(
+                                0xFF2B608A
+                            )
+                            )
                         ),
                 textColor = textColor,
                         isDarkMode = isDarkMode
@@ -199,9 +210,12 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
             MenuSection(
                 items = listOf(
-                    MenuItem(icon = "⚙️", label = currentTranslation["Settings"]!!, color = Color(0xFF6C757D)),
-                    MenuItem(icon = "💬", label = currentTranslation["ContactUs"]!!, color = Color(0xFF007BFF)),
-                    MenuItem(icon = "ℹ️", label = currentTranslation["AboutUs"]!!, color = Color(0xFF6C757D))
+                    MenuItem(icon = "⚙\uFE0F", label = currentTranslation["Settings"]!!, color = Color(
+                        0xFF82878C
+                    )
+                    ),
+                    MenuItem(icon = "\uD83D\uDCAC", label = currentTranslation["ContactUs"]!!, color = Color(0xFF007BFF)),
+                    MenuItem(icon = "\\ℹ\uFE0F", label = currentTranslation["AboutUs"]!!, color = Color(0xFF6C757D))
                 ),
                 textColor = textColor,isDarkMode = isDarkMode
             )

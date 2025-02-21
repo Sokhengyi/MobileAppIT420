@@ -175,8 +175,8 @@ fun PaymentScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .background(Color(0xFFFFA500), shape = RoundedCornerShape(10.dp)) // Orange background
-                    .border(2.dp, Color(0xFFCC8400), RoundedCornerShape(10.dp)) // Slightly darker border
+                    .background(Color(0xFFEE2A6A), shape = RoundedCornerShape(10.dp)) // Orange background
+                    .border(2.dp, Color(0xFFE91E63), RoundedCornerShape(10.dp)) // Slightly darker border
                     .padding(16.dp) // Padding inside the box
             ) {
                 Column {
@@ -239,7 +239,7 @@ fun PaymentScreen(
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFF5722),
+                    containerColor = Color(0xFFE91E63),
                     contentColor = Color.White
                 )
             ) {
@@ -257,7 +257,7 @@ fun PaymentCartItemView(item: CartItem, isDarkMode: Boolean, textColor: Color) {
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 20.dp)
             .clip(shape = RoundedCornerShape(10.dp))
-            .background(color = if (isDarkMode) Color(0xFF1E1E1E) else Color(0x8183989A))
+            .background(color = if (isDarkMode) Color(0xFF1E1E1E) else Color(0xFFD097AA))
             .height(80.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -273,7 +273,7 @@ fun PaymentCartItemView(item: CartItem, isDarkMode: Boolean, textColor: Color) {
         Spacer(modifier = Modifier.width(8.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(text = item.name, fontWeight = FontWeight.Bold, color = textColor)
-            Text(text = "$${"%.2f".format(item.price)}", color = Color(0xFFFF8C00))
+            Text(text = "$${"%.2f".format(item.price)}", color = Color(0xFFE91E63))
             Text(text = "Quantity: ${item.quantity}", fontSize = 14.sp, color = textColor)
         }
     }
@@ -286,7 +286,7 @@ fun PaymentScreenPreview() {
     val fakeViewModel = CartVM() // Assuming CartViewModel has a default constructor
     PaymentScreen(
         navController = fakeNavController,
-        fullName = "John Doe",
+        fullName = "Sokheng Yi",
         tel = "1234567890",
         address = "123 Main St",
         totalPrice = 100.0f, // Dummy value

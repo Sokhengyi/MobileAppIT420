@@ -64,9 +64,9 @@ fun PaymentMethodScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CardOption("MasterCard", R.drawable.pandalogo)
+            CardOption("MasterCard", R.drawable.mastercard)
             Spacer(modifier = Modifier.height(10.dp))
-            CardOption("Visa", R.drawable.pandalogo)
+            CardOption("Visa", R.drawable.visacard)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -105,13 +105,14 @@ fun PaymentMethodScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { /* Handle add new payment */ },
+                onClick = { navController.navigate("CartScreen") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA500))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE91E63))
             ) {
-                Text("Add New Payment", color = Color.White)
+                Text("Add New Payment",
+                    color = Color.White)
             }
         }
     }
@@ -122,8 +123,8 @@ fun CardOption(cardName: String, iconRes: Int) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, Color(0xFFCCCCCC), RoundedCornerShape(5.dp))
-            .background(Color(0xFFF1F1F1))
+            .border(1.dp, Color(0xFFC47B93), RoundedCornerShape(5.dp))
+            .background(Color(0xFFC47B93))
             .padding(10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

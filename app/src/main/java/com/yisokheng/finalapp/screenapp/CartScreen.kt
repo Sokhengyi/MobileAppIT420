@@ -10,6 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -68,36 +71,40 @@ fun CartScreen(navController: NavController, viewModel: CartVM = viewModel()) {
                 contentAlignment = Alignment.Center
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(2.dp, color = Color(0xFFFF5722), RoundedCornerShape(50.dp))
-                        .padding(horizontal = 28.dp, vertical = 5.dp)
+                        .align(Alignment.TopEnd)
+                        .padding(40.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
+                    IconButton(
                         onClick = { isDarkMode = !isDarkMode },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFF8563)
-                        ),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.size(width = 80.dp, height = 32.dp)
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        Text(text = if (isDarkMode) "☀️" else "🌙", fontSize = 14.sp)
+                        Icon(
+                            if (isDarkMode) Icons.Default.LightMode else Icons.Default.DarkMode,
+                            contentDescription = null,
+                            tint = if (isDarkMode) Color.White else Color.Black
+                        )
                     }
-
+                    IconButton(
+                        onClick = { navController.navigate("AboutUsScreen") },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = null,
+                            tint = if (isDarkMode) Color.White else Color.Black
+                        )
+                    }
                     Button(
                         onClick = { selectedLanguage = if (selectedLanguage == "en") "kh" else "en" },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF8C5EDE)
-                        ),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.size(width = 80.dp, height = 32.dp)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEA0D81)),
+                        shape = RoundedCornerShape(25.dp),
+                        modifier = Modifier.size(width = 70.dp, height = 32.dp)
                     ) {
-                        Text(
-                            text = if (selectedLanguage == "en") "KH" else "EN",
-                            fontSize = 14.sp,
-                            color = Color.White
-                        )
+                        Text(text = if (selectedLanguage == "en") "KH" else "EN", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSecondary)
                     }
                 }
             }
@@ -163,7 +170,7 @@ fun CartScreen(navController: NavController, viewModel: CartVM = viewModel()) {
                         // Pass totalPrice to infoScreen
                         navController.navigate("infoScreen/${totalPrice}")
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8C00))
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE91E63))
                 ) {
                     Text(text = currentTranslation["Checkout"]!!, color = Color.White)
                 }
@@ -179,7 +186,7 @@ fun CartItemView(item: CartItem, onQuantityChange: (Int) -> Unit, isDarkMode: Bo
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clip(shape = RoundedCornerShape(10.dp))
-            .background(color = if (isDarkMode) Color(0xFF1E1E1E) else Color(0x8183989A))
+            .background(color = if (isDarkMode) Color(0xFFE7AEBF) else Color(0xFFE5A1BB))
             .height(80.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -192,13 +199,13 @@ fun CartItemView(item: CartItem, onQuantityChange: (Int) -> Unit, isDarkMode: Bo
         Spacer(modifier = Modifier.width(8.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(text = item.name, fontWeight = FontWeight.Bold, color = textColor)
-            Text(text = "$${"%.2f".format(item.price)}", color = Color(0xFFFF8C00))
+            Text(text = "$${"%.2f".format(item.price)}", color = Color(0xFF690527))
         }
         Box(
             modifier = Modifier
                 .padding(8.dp)
                 .border(2.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
-                .background(if (isDarkMode) Color(0xFF333333) else Color(0xFFE0E0E0), shape = RoundedCornerShape(8.dp))
+                .background(if (isDarkMode) Color(0xC1D3829F) else Color(0xFFE0E0E0), shape = RoundedCornerShape(8.dp))
         ) {
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {

@@ -106,6 +106,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import com.yisokheng.finalapp.modelapp.Brand
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
@@ -118,13 +120,20 @@ fun HomeScreen(navController: NavController) {
     val textColor = if (isDarkMode) Color.White else Color.Black
     var searchText by remember { mutableStateOf("") }
 
+    // Filter the food list based on search text
+    val filteredFoodList = foodList.filter { food ->
+        food.name.contains(searchText, ignoreCase = true) ||
+                food.description.contains(searchText, ignoreCase = true)
+    }
+
     val translations = mapOf(
         "en" to mapOf(
             "deliveringTo" to "Delivering To",
+            "pnompenh" to "Pnom Penh",
             "orderNow" to "Order Now",
-            "searchBox" to "Search restaurants and groceries...",
-            "categoriesHeader" to "Categories",
-            "nearbyHeader" to "Nearby Restaurants",
+            "searchBox" to "Search restaurants and groceries",
+            "categoriestitle" to "Shop Categories",
+            "nearby" to "Nearby Restaurants",
             "popRes" to "Popular Restaurants",
             "newArrivals" to "New arrivals up to 50% off",
             "topShops" to " Top Shops",
@@ -134,9 +143,10 @@ fun HomeScreen(navController: NavController) {
         ),
         "kh" to mapOf(
             "deliveringTo" to "កំពុងដឹកជញ្ជូនទៅ",
+            "pnompenh" to "ភ្នំពេញ",
             "orderNow" to "កម៉្មង់ឥឡូវនេះ",
             "searchBox" to "ស្វែងរកអ្វីៗ...",
-            "categoriesHeader" to "ប្រភេទម្ហូប",
+            "categoriestitle" to "ប្រភេទម្ហូប",
             "nearbyHeader" to "ភោជនីយដ្ឋានដែលនៅជិត",
             "popRes" to "ភោជនីយដ្ឋានពេញនិយម",
             "newArrivals" to "មកដល់ថ្មី បញ្ចុះតម្លៃរហូតដល់ 50%",
@@ -152,14 +162,13 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
             Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp)
-                .background(color = Color(0xFFFFFFFF)),
-
-            contentAlignment = Alignment.Center
-        ) {
-            Spacer(modifier = Modifier.height(30.dp))
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp)
+                    .background(if (isDarkMode) Color.DarkGray else Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
                 Row(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -197,7 +206,7 @@ fun HomeScreen(navController: NavController) {
                         Text(text = if (selectedLanguage == "en") "KH" else "EN", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSecondary)
                     }
                 }
-        }
+            }
         },
         bottomBar = { Footer(navController) }
     ) { paddingValues ->
@@ -209,6 +218,7 @@ fun HomeScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
+                        .background(if (isDarkMode) Color.Black else Color.White)
                         .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -230,23 +240,22 @@ fun HomeScreen(navController: NavController) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Caspian Sport Hotel",
+                                text = "Current Location",
                                 fontSize = 26.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = textColor,
                                 modifier = Modifier.padding(8.dp)
                             )
-                            IconButton(
-                                onClick = { /* Edit action */ },
+                            Text(
+                                text = currentTranslation["pnompenh"]!!,
+                                color = Color(0xFF6E6368),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Start,
                                 modifier = Modifier
-                                    .background(Color.LightGray, CircleShape)
-                                    .padding(5.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "Edit"
-                                )
-                            }
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            )
                         }
                     }
 
@@ -256,11 +265,6 @@ fun HomeScreen(navController: NavController) {
                             value = searchText,
                             onValueChange = { searchText = it },
                             placeholder = {
-                                Icon(
-                                    Icons.Default.Search,
-                                    contentDescription = null,
-                                    tint = if (isDarkMode) Color.White else Color.Black
-                                )
                                 Text(
                                     text = currentTranslation["searchBox"] ?: "",
                                     color = Color.Gray,
@@ -308,23 +312,6 @@ fun HomeScreen(navController: NavController) {
                         }
                     }
 
-
-                    // Categories Section
-                    item {
-                        Text(
-                            text = currentTranslation["categoriesHeader"]!!,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = textColor,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                        )
-                        CategoriesSection(isDarkMode = isDarkMode)
-                    }
-
-                    // Top Shops Section
                     item {
                         Text(
                             text = currentTranslation["topShops"]!!,
@@ -338,6 +325,23 @@ fun HomeScreen(navController: NavController) {
                         )
                         TopShopsSection(isDarkMode = isDarkMode)
                     }
+                    // Categories Section
+                    item {
+                        Text(
+                            text = currentTranslation["categoriestitle"]!!,
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textColor,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        )
+                        CategoriesSection(isDarkMode = isDarkMode)
+                    }
+
+                    // Top Shops Section
+
 
                     // Top Brands Section
                     item {
@@ -352,42 +356,6 @@ fun HomeScreen(navController: NavController) {
                                 .padding(8.dp)
                         )
                         TopBrandsSection(isDarkMode = isDarkMode)
-                    }
-
-                    // Nearby Restaurants Section
-                    item {
-                        Text(
-                            text = currentTranslation["nearbyHeader"]!!,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = textColor,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(300.dp)
-                                .background(Color.LightGray)
-                        ) {
-                            Image(
-                                painter = painterResource(id = com.yisokheng.finalapp.R.drawable.map),
-                                contentDescription = "Background Image",
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .alpha(0.5f),
-                                contentScale = ContentScale.Crop
-                            )
-                            Text(
-                                text = "Google Map will be here",
-                                modifier = Modifier.align(Alignment.Center),
-                                color = textColor,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
                     }
 
                     // Popular Restaurants Section
@@ -430,7 +398,7 @@ fun HomeScreen(navController: NavController) {
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
-                    itemsIndexed(foodList) { index, food ->
+                    itemsIndexed(filteredFoodList) { index, food ->
                         FoodCard(navController = navController, food = food, isDarkMode = isDarkMode, textColor = textColor)
                     }
                 }
@@ -445,7 +413,7 @@ fun Carousel() {
     val images = listOf(
         com.yisokheng.finalapp.R.drawable.banner,
         com.yisokheng.finalapp.R.drawable.banner1,
-        com.yisokheng.finalapp.R.drawable.banner3
+        com.yisokheng.finalapp.R.drawable.banner2
     )
     val pagerState = com.google.accompanist.pager.rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -502,17 +470,78 @@ fun Carousel() {
         }
     }
 }
+
+@Composable
+fun TopShopsSection(isDarkMode: Boolean) {
+    val topShops = listOf(
+        Shop(com.yisokheng.finalapp.R.drawable.aeon, "Aeon MaxValu Supermarket", "15-30 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.kground, "K Ground Mini TK", "30-45 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.lucky, "Lucky Supermarket", "25-40 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.chipmong, "Chip Mong Supermarket", "25 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.bigc, "Big C Mini", "15 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.boncafe, "BONCAFE", "20 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.guadian, "Guardian", "10 min"),
+        Shop(com.yisokheng.finalapp.R.drawable.gtv, "Green Town Vegetable", "25 min")
+    )
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(topShops.size) { index ->
+            TopShopItem(shop = topShops[index], textColor = if (isDarkMode) Color.White else Color.Black)
+        }
+    }
+}
+
+@Composable
+fun TopShopItem(shop: Shop, textColor: Color) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(15.dp)
+            .width(120.dp)
+    ) {
+        Image(
+            painter = painterResource(id = shop.imageResId),
+            contentDescription = shop.name,
+            modifier = Modifier
+                .size(80.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(Color.LightGray)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        Text(
+            text = shop.name,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor,
+            modifier = Modifier.padding(vertical = 5.dp),
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = shop.distance,
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 5.dp)
+        )
+    }
+}
+
+data class Shop(val imageResId: Int, val name: String, val distance: String)
+
 @Composable
 fun CategoriesSection(isDarkMode: Boolean) {
     val categories = listOf(
-        Category(com.yisokheng.finalapp.R.drawable.hamburger, "Burger"),
-        Category(com.yisokheng.finalapp.R.drawable.sushi, "Sushi"),
-        Category(com.yisokheng.finalapp.R.drawable.pizza, "Pizza"),
-        Category(com.yisokheng.finalapp.R.drawable.dessert, "Dessert"),
-        Category(com.yisokheng.finalapp.R.drawable.hamburger, "Burger"),
-        Category(com.yisokheng.finalapp.R.drawable.sushi, "Sushi"),
-        Category(com.yisokheng.finalapp.R.drawable.pizza, "Pizza"),
-        Category(com.yisokheng.finalapp.R.drawable.dessert, "Dessert")
+        Category(com.yisokheng.finalapp.R.drawable.groceries, "Groceries"),
+        Category(com.yisokheng.finalapp.R.drawable.convenience, "Convenience"),
+        Category(com.yisokheng.finalapp.R.drawable.beverages, "Beverages"),
+        Category(com.yisokheng.finalapp.R.drawable.electronics, "Electronics"),
+        Category(com.yisokheng.finalapp.R.drawable.fruits, "Fruits"),
+        Category(com.yisokheng.finalapp.R.drawable.sports, "Sports"),
+        Category(com.yisokheng.finalapp.R.drawable.flowers, "Flowers"),
+        Category(com.yisokheng.finalapp.R.drawable.valentine, "Valentine's Collection"),
+
     )
 
     LazyRow(
@@ -547,7 +576,6 @@ data class Category(val imageResId: Int, val name: String)
 
 @Composable
 fun RestaurantScroll() {
-
 
     // Restaurant Cards Horizontal Scroll
     Row(
@@ -761,74 +789,18 @@ fun NewArrivalCard(
             modifier = Modifier.padding(horizontal = 10.dp)
         )
     }
-}@Composable
-fun TopShopsSection(isDarkMode: Boolean) {
-    val topShops = listOf(
-        Shop(com.yisokheng.finalapp.R.drawable.lucky, "Lucky Supermarket", "15 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.miniso, "Miniso", "20 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.aeon, "Aeon (Sen Sok Supermarket)", "10 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.chipmong, "Chip Mong Supermarket", "25 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.bigc, "Big C Mini", "15 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.boncafe, "BONCAFE", "20 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.guadian, "Guardian", "10 min"),
-        Shop(com.yisokheng.finalapp.R.drawable.gtv, "Green Town Vegetable", "25 min")
-    )
-
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        items(topShops.size) { index ->
-            TopShopItem(shop = topShops[index], textColor = if (isDarkMode) Color.White else Color.Black)
-        }
-    }
 }
-
-@Composable
-fun TopShopItem(shop: Shop, textColor: Color) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(15.dp)
-            .width(120.dp)
-    ) {
-        Image(
-            painter = painterResource(id = shop.imageResId),
-            contentDescription = shop.name,
-            modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(Color.LightGray)
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = shop.name,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = textColor,
-            modifier = Modifier.padding(vertical = 5.dp),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = shop.distance,
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.padding(bottom = 5.dp)
-        )
-    }
-}
-
-data class Shop(val imageResId: Int, val name: String, val distance: String)
+//nhjjj
 
 @Composable
 fun TopBrandsSection(isDarkMode: Boolean) {
     val topBrands = listOf(
-        Brand(com.yisokheng.finalapp.R.drawable.dairyqueenlogo, "Diary Queen", "15-20 min"),
-        Brand(com.yisokheng.finalapp.R.drawable.starbucklogo, "Starbucks", "20-30 min"),
-        Brand(com.yisokheng.finalapp.R.drawable.texaslogo, "Texas Chicken", "10-20 min"),
-        Brand(com.yisokheng.finalapp.R.drawable.pizzalogo, "The Pizza Company", "25-35 min"),
-        Brand(com.yisokheng.finalapp.R.drawable.chatimelogo, "Chatime", "15-20 min"),
-        Brand(com.yisokheng.finalapp.R.drawable.dominologo, "Domino's Pizza", "20-30 min"),
+        Brand(R.drawable.dairyqueenlogo, "Diary Queen", "15-20 min"),
+        Brand(R.drawable.starbucklogo, "Starbucks", "20-30 min"),
+        Brand(R.drawable.texaslogo, "Texas Chicken", "10-20 min"),
+        Brand(R.drawable.pizzalogo, "The Pizza Company", "25-35 min"),
+        Brand(R.drawable.chatimelogo, "Chatime", "15-20 min"),
+        Brand(R.drawable.dominologo, "Domino's Pizza", "20-30 min"),
     )
 
     LazyRow(
@@ -875,10 +847,6 @@ fun TopBrandsItem(brand: Brand, textColor: Color) {
     }
 }
 
-data class Brand(val imageResId: Int, val name: String, val distance: String)
-
-
-
 
 
 @Composable
@@ -894,7 +862,7 @@ fun Footer(navController: NavController) {
         ) {
             // Food Icon and Label
             FooterItem(
-                icon = "🍔",
+                icon = "\uD83C\uDF71",
                 label = "Food",
                 onClick = { navController.navigate("HomeScreen") }
             )
@@ -960,7 +928,7 @@ data class Food(
 )
 
 val foodList: List<Food> = listOf(
-    Food(com.yisokheng.finalapp.R.drawable.pizzafood, "Hawaiian Pizza", "$12.75", "Pizza with ham and pineapple"),
+    Food(com.yisokheng.finalapp.R.drawable.groceries, "Hawaiian Pizza", "$12.75", "Pizza with ham and pineapple"),
     Food(com.yisokheng.finalapp.R.drawable.burgerfood, "Cheeseburger", "$8.50", "Classic beef cheeseburger"),
     Food(com.yisokheng.finalapp.R.drawable.sushifood, "Sushi Platter", "$15.00", "Assorted sushi rolls"),
     Food(com.yisokheng.finalapp.R.drawable.steakhousefood, "Tomahawk Steak", "$10.25", "Juicy grilled steak"),
@@ -1046,57 +1014,3 @@ fun FoodCard(navController: NavController, food: Food, isDarkMode: Boolean, text
         }
     }
 }
-
-//@Composable
-//fun Footer(navController: NavController, modifier: Modifier = Modifier) {
-//    Row(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .background(Color.White)
-//            .padding(16.dp),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        FooterItem(
-//            icon = Icons.Default.Home, // Material Icon for Home
-//            label = "Home",
-//            onClick = { navController.navigate("HomeScreen") }
-//        )
-//        FooterItem(
-//            icon = Icons.Default.List, // Material Icon for Orders
-//            label = "Orders",
-//            onClick = { navController.navigate("OrdersScreen") }
-//        )
-//        FooterItem(
-//            icon = Icons.Default.Favorite, // Material Icon for Favorites
-//            label = "Favorites",
-//            onClick = { navController.navigate("FavoritesScreen") }
-//        )
-//        FooterItem(
-//            icon = Icons.Default.Person, // Material Icon for Profile
-//            label = "Profile",
-//            onClick = { navController.navigate("ProfileScreen") }
-//        )
-//    }
-//}
-//
-//@Composable
-//fun FooterItem(icon: ImageVector, label: String, onClick: () -> Unit) {
-//    Column(
-//        modifier = Modifier
-//            .clickable(onClick = onClick)
-//            .fillMaxHeight(),
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//        Icon(
-//            imageVector = icon, // Use ImageVector for Material Icons
-//            contentDescription = label,
-//            modifier = Modifier.size(24.dp),
-//            tint = Color(0xFFE08AB4),
-//            // You can change this or make it dynamic based on the selected state
-//        )
-//        Spacer(modifier = Modifier.height(4.dp))
-//        Text(text = label, color = Color.Red)
-//    }
-//}

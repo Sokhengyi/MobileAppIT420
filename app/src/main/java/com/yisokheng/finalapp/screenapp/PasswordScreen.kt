@@ -195,7 +195,7 @@ fun PasswordScreen(navController: NavController) {
 
                     },
                     modifier = Modifier.fillMaxWidth().height(55.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5722)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE91E63)),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(currentTranslation["next"]!!, color = Color.White, fontSize = 16.sp)

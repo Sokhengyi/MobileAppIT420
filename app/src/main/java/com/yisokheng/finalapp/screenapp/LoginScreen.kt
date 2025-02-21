@@ -45,8 +45,14 @@ fun LoginScreen(navController: NavController) {
     var selectedLanguage by remember { mutableStateOf("en") }
     var passwordError by remember { mutableStateOf(false) }
 
-    val textColor = if (isDarkMode) Color.White else MaterialTheme.colorScheme.onSurface
-    val secondaryTextColor = if (isDarkMode) Color.White.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+    val textColor =
+        if (isDarkMode) Color.White
+        else
+            MaterialTheme.colorScheme.onSurface
+    val secondaryTextColor =
+        if (isDarkMode) Color.White.copy(alpha = 0.7f)
+        else
+            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
 
     val translations = mapOf(
         "en" to mapOf(
@@ -101,9 +107,15 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    if (isDarkMode) Icons.Default.LightMode else Icons.Default.DarkMode,
+                    if (isDarkMode)
+                        Icons.Default.LightMode
+                    else
+                        Icons.Default.DarkMode,
                     contentDescription = null,
-                    tint = if (isDarkMode) Color.White else Color.Black
+                    tint =
+                    if (isDarkMode) Color.White
+                    else
+                        Color.Black
                 )
             }
             IconButton(
@@ -122,12 +134,16 @@ fun LoginScreen(navController: NavController) {
                 shape = RoundedCornerShape(25.dp),
                 modifier = Modifier.size(width = 70.dp, height = 32.dp)
             ) {
-                Text(text = if (selectedLanguage == "en") "KH" else "EN", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSecondary)
+                Text(text = if (selectedLanguage == "en") "KH" else "EN",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSecondary)
             }
         }
     }
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -181,10 +197,16 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth(),
                 singleLine = true,
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation =
+                if (passwordVisible) VisualTransformation.None
+                else
+                    PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        Icon(if (passwordVisible)
+                            Icons.Default.Visibility
+                        else
+                            Icons.Default.VisibilityOff,
                             contentDescription = null,
                             tint = textColor)
                     }
@@ -199,11 +221,14 @@ fun LoginScreen(navController: NavController) {
 
             ClickableText(text = AnnotatedString(currentTranslation["forgotpassword"]!!),
                 onClick = { navController.navigate("ForgotPasswordScreen") },
-                style = TextStyle(color = Color.Blue, fontSize = 14.sp))
+                style = TextStyle(
+                    color = Color.Blue,
+                    fontSize = 14.sp))
 
             Spacer(modifier = Modifier
                 .height(24.dp))
 
+//BUTTON SIGN IN TO HOME SCREEN
             Button(
                 onClick = { navController.navigate("HomeScreen") },
                 modifier = Modifier
@@ -215,19 +240,36 @@ fun LoginScreen(navController: NavController) {
                 Text(text = currentTranslation["signin"]!!,
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 25.sp, fontWeight = FontWeight.Bold))
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = currentTranslation["or"]!!, color = textColor, modifier = Modifier.padding(vertical = 8.dp))
+            Text(text = currentTranslation["or"]!!,
+                color = textColor,
+                modifier = Modifier
+                    .padding(vertical = 8.dp))
 
-            Button(onClick = { navController.navigate("FacebookLogin") }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1877F2))) {
-                Icon(Icons.Default.Facebook, contentDescription = "Facebook", modifier = Modifier.size(24.dp))
-                Spacer(modifier = Modifier.width(8.dp))
+//BUTTON CONTINUE WITH FACEBOOK
+            Button(onClick = { navController.navigate("LoginFBScreen") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1877F2))) {
+                Icon(Icons.Default.Facebook,
+                    contentDescription = "Facebook",
+                    modifier = Modifier.
+                    size(24.dp))
+                Spacer(modifier = Modifier
+                    .width(8.dp))
                 Text(currentTranslation["continuefacebook"]!!)
             }
-
-            Text(text = currentTranslation["terms"]!!, style = MaterialTheme.typography.bodySmall, color = secondaryTextColor, textAlign = TextAlign.Center, modifier = Modifier.padding(horizontal = 16.dp))
+            Text(text = currentTranslation["terms"]!!,
+                style = MaterialTheme.typography.bodySmall,
+                color = secondaryTextColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp))
         }
     }

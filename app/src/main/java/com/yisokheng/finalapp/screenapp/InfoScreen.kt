@@ -17,10 +17,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -87,36 +92,48 @@ fun InfoScreen(navController: NavController, totalPrice: Float) {
                 contentAlignment = Alignment.Center
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(2.dp, color = Color(0xFFFF5722), RoundedCornerShape(50.dp))
-                        .padding(horizontal = 28.dp, vertical = 5.dp)
+                        .align(Alignment.TopEnd)
+                        .padding(40.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
+                    IconButton(
                         onClick = { isDarkMode = !isDarkMode },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFF8563)
-                        ),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.size(width = 80.dp, height = 32.dp)
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        Text(text = if (isDarkMode) "☀️" else "🌙", fontSize = 14.sp)
+                        Icon(
+                            if (isDarkMode)
+                                Icons.Default.LightMode
+                            else
+                                Icons.Default.DarkMode,
+                            contentDescription = null,
+                            tint =
+                            if (isDarkMode) Color.White
+                            else
+                                Color.Black
+                        )
                     }
-
+                    IconButton(
+                        onClick = { navController.navigate("AboutUsScreen") },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = null,
+                            tint = if (isDarkMode) Color.White else Color.Black
+                        )
+                    }
                     Button(
                         onClick = { selectedLanguage = if (selectedLanguage == "en") "kh" else "en" },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF8C5EDE)
-                        ),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.size(width = 80.dp, height = 32.dp)
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEA0D81)),
+                        shape = RoundedCornerShape(25.dp),
+                        modifier = Modifier.size(width = 70.dp, height = 32.dp)
                     ) {
-                        Text(
-                            text = if (selectedLanguage == "en") "KH" else "EN",
+                        Text(text = if (selectedLanguage == "en") "KH" else "EN",
                             fontSize = 14.sp,
-                            color = Color.White
-                        )
+                            color = MaterialTheme.colorScheme.onSecondary)
                     }
                 }
             }
@@ -209,7 +226,7 @@ fun InfoScreen(navController: NavController, totalPrice: Float) {
                 label = { Text(currentTranslation["FullName"]!!, color = textColor) },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFFF5722),
+                    focusedBorderColor = Color(0xFFE91E63),
                     unfocusedBorderColor = Color.Gray,
                    unfocusedTextColor = textColor,
                     focusedTextColor = textColor,
@@ -234,7 +251,7 @@ fun InfoScreen(navController: NavController, totalPrice: Float) {
                 label = { Text(currentTranslation["Telephone"]!!, color = textColor) },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFFF5722),
+                    focusedBorderColor = Color(0xFFE91E63),
                     unfocusedBorderColor = Color.Gray,
                     unfocusedTextColor = textColor,
                     focusedTextColor = textColor,
@@ -259,7 +276,7 @@ fun InfoScreen(navController: NavController, totalPrice: Float) {
                 label = { Text(currentTranslation["Address"]!!, color = textColor) },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFFFF5722),
+                    focusedBorderColor = Color(0xFFE91E63),
                     unfocusedBorderColor = Color.Gray,
                     unfocusedTextColor = textColor,
                     focusedTextColor = textColor,
@@ -302,7 +319,7 @@ fun InfoScreen(navController: NavController, totalPrice: Float) {
                     }
                 },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8C00))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE91E63))
             ) {
                 Text(text = currentTranslation["ProceedToPayment"]!!, color = Color.White)
             }

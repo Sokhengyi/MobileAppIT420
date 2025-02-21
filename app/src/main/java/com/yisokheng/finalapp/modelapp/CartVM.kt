@@ -24,18 +24,16 @@ class CartVM : ViewModel() {
     )
 
     private val _totalPrice = MutableStateFlow(0.0)
-    val totalPrice = _totalPrice.asStateFlow()
-
-
-
-
-    val cartItems: StateFlow<List<CartItem>> = _cartItems
+            val totalPrice = _totalPrice.asStateFlow()
+            val cartItems: StateFlow<List<CartItem>> = _cartItems
 
     fun updateQuantity(itemId: Int, newQuantity: Int) {
         if (newQuantity < 0) return
         println("Updating item $itemId with quantity $newQuantity") // Debugging
-        _cartItems.update { items ->
-            items.map { item ->
+        _cartItems
+            .update { items ->
+            items
+                .map { item ->
                 if (item.id == itemId) {
                     item.copy(quantity = newQuantity)
                 } else {

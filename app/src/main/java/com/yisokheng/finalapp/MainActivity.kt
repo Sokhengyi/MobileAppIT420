@@ -17,8 +17,6 @@ import com.yisokheng.finalapp.screenapp.PaymentMethodScreen
 import com.yisokheng.finalapp.screenapp.AboutUsScreen
 import com.yisokheng.finalapp.screenapp.CartScreen
 import com.yisokheng.finalapp.screenapp.Footer
-//import com.yisokheng.finalapp.screenapp.GooglePasswordScreen
-//import com.yisokheng.finalapp.screenapp.GoogleScreen
 import com.yisokheng.finalapp.screenapp.HomeScreen
 import com.yisokheng.finalapp.screenapp.InfoScreen
 import com.yisokheng.finalapp.screenapp.LoginFBScreen
@@ -77,9 +75,7 @@ fun AppNavigation(navController: NavController) {
             RestaurantProfileScreen(navController, name, rating, deliveryTime, cuisine, imageRes)
         }
 
-
         composable("ProfileScreen") { ProfileScreen(navController) }
-
 
         composable("PaymentMethodScreen") { PaymentMethodScreen(navController) }
         composable(
@@ -92,12 +88,7 @@ fun AppNavigation(navController: NavController) {
             val totalPrice = backStackEntry.arguments?.getFloat("totalPrice") ?: 0f
             InfoScreen(navController, totalPrice)
         }
-//        composable("GoogleScreen") { GoogleScreen(navController) }
         composable("Footer") { Footer(navController) }
-//        composable("GooglePasswordScreen/{email}") { backStackEntry ->
-//            val email = backStackEntry.arguments?.getString("email") ?: ""
-//            GooglePasswordScreen(navController, email)
-//        }
         composable(
             route = "paymentScreen/{fullName}/{tel}/{address}/{totalPrice}",
             arguments = listOf(
